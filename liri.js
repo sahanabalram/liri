@@ -42,7 +42,7 @@ if (process.argv[2] == 'my-tweets') {
         id: process.env.Spotify_Client_ID,
         secret: process.env.Spotify_Client_Secret
     });
-// if a trackname is specified then the name of the artist, album name, preview_url , name of the track will get displayed
+    // if a trackname is specified then the name of the artist, album name, preview_url , name of the track will get displayed
     spotify.search({
         type: 'track',
         query: trackname,
@@ -75,5 +75,38 @@ if (process.argv[2] == 'my-tweets') {
                 console.log("Artist Name" + artists.join(', '));
             }
         }
+    });
+} else if (process.argv[2] == "movie-this") {
+    var request = require('request');
+    var movieName = "Mr.Nobody";
+    if (process.argv[3] !== undefined) {
+        movieName = process.argv[3]
+    }
+    var queryURL = 'http://www.omdbapi.com/?apikey=40e9cece&t=' + movieName;
+    console.log(queryURL);
+
+    request(queryURL, function (error, response, body) {
+
+        console.log('error:', error); // Print the error if one occurred 
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+
+        // Request response body will be a string and not an object even though it looks like a json object
+        // So need to parse the body to JSON to access its members
+        var movieData = JSON.parse(body);
+        console.log("Title of the Movie:" + movieData.Title);
+        console.log("Year of the Movie:" + movieData.Year);
+        console.log("IMDB Rating:" + movieData.imdbRating);
+        // iterate through the list of Ratings to get the value of ratings from Rotten Tomato 
+        for (var i = 0; i < movieData.Ratings.length; i++) {
+            if (movieData.Ratings[i].Source === "Rotten Tomatoes") {
+                console.log("Rotten Tomatoes:" + movieData.Ratings[i].Value);
+            }
+        }
+        console.log("Country:" + movieData.Country);
+        console.log("Language:" + movieData.Language);
+        console.log("Plot:" + movieData.Plot);
+        console.log("Actors:" + movieData.Actors);
+
+
     });
 }
