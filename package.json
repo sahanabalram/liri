@@ -2,7 +2,7 @@
   "name": "liri",
   "version": "1.0.0",
   "description": "Language Interpretation and Recognition Interface",
-  "main": "index.js",
+  "main": "liri.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/sahanabalram/liri/issues"
   },
-  "homepage": "https://github.com/sahanabalram/liri#readme"
+  "homepage": "https://github.com/sahanabalram/liri#readme",
+  "dependencies": {
+    "node-spotify-api": "^1.0.7",
+    "twitter": "^1.7.1"
+  }
 }
