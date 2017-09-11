@@ -37,7 +37,6 @@ if (process.argv[2] == 'my-tweets') {
         trackname = process.argv[3]
     }
     var Spotify = require('node-spotify-api');
-
     var spotify = new Spotify({
         id: process.env.Spotify_Client_ID,
         secret: process.env.Spotify_Client_Secret
@@ -108,5 +107,12 @@ if (process.argv[2] == 'my-tweets') {
         console.log("Actors:" + movieData.Actors);
 
 
+    });
+
+} else if (process.argv[2] == "do-what-it-says") {
+    const fs = require('fs');
+    fs.readFile('./random.txt', 'utf8', (err, data) => {
+        if (err) throw err;
+        console.log(data);
     });
 }
