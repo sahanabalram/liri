@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/sahanabalram/liri#readme",
   "dependencies": {
+    "moment": "^2.18.1",
     "node-spotify-api": "^1.0.7",
     "omdb": "^0.8.0",
     "request": "^2.81.0",

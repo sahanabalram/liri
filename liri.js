@@ -1,7 +1,8 @@
- const fs = require('fs');
+ var fs = require('fs');
  var Twitter = require('twitter');
  var Spotify = require('node-spotify-api');
  var request = require('request');
+ var moment = require('moment');
  if (process.argv[2] == 'my-tweets') {
      var client = new Twitter({
          consumer_key: process.env.twitter_consumer_key,
@@ -28,11 +29,14 @@
          if (error) throw error;
          console.log(error);
          for (var i = 0; i < tweets.length; i++) {
+             logData("-------------TWITTER---------------");
              logData(tweets[i].text); // The favorites. 
          }
      });
+        
      // code for Spotify
  } else if (process.argv[2] == "spotify-this-song") {
+     logData("----------------SPOTIFY-----------------------");
      // if a trackname is not specified then the default trackname will get displayed with name of artist, album name.
      var trackname = "The Sign";
      if (process.argv[3] !== undefined) {
@@ -45,7 +49,8 @@
      // if a trackname is specified then the name of the artist, album name, preview_url , name of the track will get displayed
      spotify.search({
          type: 'track',
-         query: trackname,
+         query: trackname
+         
      }, function (err, data) {
          if (err) {
              return console.log('Error occurred: ' + err);
@@ -58,14 +63,14 @@
                  }
                  if (artists.join(', ').includes("Ace of Base")) {
                      logData("---------------------------------------");
-                     logData("Name:" + data.tracks.items[i].name);
+                     logData("Track Name:" + data.tracks.items[i].name);
                      logData("Album:" + data.tracks.items[i].album.name);
                      logData("Preview_URL:" + data.tracks.items[i].preview_url);
                      logData("Artist Name:" + artists.join(', '));
                  }
              } else {
                  logData("---------------------------------------");
-                 logData("Name:" + data.tracks.items[i].name);
+                 logData("Track Name:" + data.tracks.items[i].name);
                  logData("Album Name:" + data.tracks.items[i].album.name);
                  logData("Preview_URL:" + data.tracks.items[i].preview_url);
                  var artists = [];
@@ -76,6 +81,7 @@
              }
          }
      });
+        logData("--------------OMDB--------------------");
  } else if (process.argv[2] == "movie-this") {
      var movieName = "Mr.Nobody";
      if (process.argv[3] !== undefined) {
@@ -102,7 +108,6 @@
          logData("Language:" + movieData.Language);
          logData("Plot:" + movieData.Plot);
          logData("Actors:" + movieData.Actors);
-         logData("Actors:" + movieData.Actors);
 
      });
 
@@ -110,19 +115,21 @@
 
      fs.readFile('./random.txt', 'utf8', (err, data) => {
          if (err) throw err;
-         console.log(data);
+         logData("Do What it Says:" + data);
      });
+ } else {
+     console.log("Unsupport command line argument");
  }
 
  // write File(log.txt)
  function logData(data) {
      console.log(data);
-     data = data + "\n";
+     data = "Log Entry: " + moment().format() + "\n"+ data + "\n";
      fs.writeFile('log.txt', data, {
          flag: 'a',
          encoding: 'utf-8'
      }, (err) => {
          if (err) throw err;
-         // console.log('The file has been saved!');
+         //   console.log('The file has been saved!');
      });
  }
